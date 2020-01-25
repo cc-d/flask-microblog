@@ -1,0 +1,36 @@
+#content {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+#page-container {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#login-page-form {
+    width: 20rem;
+    margin: 0 auto;
+    margin-top: 1rem;
+}
+
+#top-navbar {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.login-inputs {
+    margin: 0.5rem;
+}
+
+.create-account-btn {
+    margin-left: 0.5rem;
+}
+
+.forgot-password-wrap, .forgot-password-wrap > a {
+    display: inline-block;
+}
+
+.form-final-btn {
+    display: inline-block;
+}

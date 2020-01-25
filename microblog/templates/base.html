@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href="{{ url_for('static', filename='bootstrap.min.css') }}{{ g.cache_bust }}">
+    <link rel='stylesheet' href="{{ url_for('static', filename='font-awesome.min.css') }}{{ g.cache_bust }}">
+    <link rel='stylesheet' href="{{ url_for('static', filename='base.css') }}{{ g.cache_bust }}">
+
+    <script type='text/javascript' src="{{ url_for('static', filename='jquery-3.4.1.min.js') }}"></script>
+    <script type='text/javascript' src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+
+    <title>{{ request.environ['RAW_URI'] }}</title>
+
+    <!-- Page specific JS -->
+    {% block javascript %}
+    {% endblock %}
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Anolag</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+            </ul>
+
+            {% if 'username' in session %}
+            <ul class='navbar-nav navbar-right'>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class='fa fa-user'></i>&nbsp;{{ session['username'] }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Logout</a>
+                    </div>
+                </li>
+            </ul>
+            {% endif %}
+
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <div id='page-container'>
+        <div id='content'>
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+
+</html>

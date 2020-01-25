@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block javascript %}
+<script type='text/javascript' src="{{ url_for('static', filename='login.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+{% if creating_admin == False %}
+    {% set form_action = '/login' %}
+{% else %}
+    {% set form_action = '/register' %}
+{% endif %}
+
+{% if creating_admin %}
+<br>
+<div class="card">
+    <div class="card-header">
+        Create Admin Account
+    </div>
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <p>No user accounts found in database, create an admin account to get started.</p>
+        </blockquote>
+    </div>
+</div>
+{% endif %}
+
+<form id='login-page-form' action='{{ form_action }}' method='post' class='border rounded'>
+    {% if creating_admin %}
+        <div class='form-group login-inputs'>
+            <h6 class='text-danger'><i class='fa fa-user'></i>&nbsp;Creating Admin Account</h6>
+        </div>
+    {% endif %}
+
+    {% if creating_admin %}
+        <div class='form-group login-inputs'>
+            <label for='login-email'>Email</label>
+            <input type='email' name='email' class='form-control form-control-sm' id='login-email' placeholder='example@example.com'>
+        </div>
+
+        <div class='form-group login-inputs'>
+            <label for='login-username'>Username</label>
+            <input type='text' name='username' class='form-control form-control-sm' id='login-username' placeholder='Username'>
+        </div>
+
+        <div class='form-group login-inputs border-top'>
+            <label for='login-password'>Enter Password</label>
+            <input type='password' name='password' class='form-control form-control-sm' id='login-password' placeholder='Enter Password' onkeyup='checkPasswords()'>
+        </div>
+
+        <div class='form-group login-inputs'>
+            <label for='login-password2'>Confirm Password</label>
+            <input type='password' name='password2' class='form-control form-control-sm' id='login-password2' placeholder='Confirm Password' onkeyup='checkPasswords()'>
+            <small id='confirm-password-msg'></small>
+        </div>
+
+        <div class='form-group form-final-btn'>
+            <button type='submit' class='btn btn-primary create-account-btn'>Create</button>
+        </div>
+
+    {% else %}
+        <div class='form-group login-inputs'>
+            <h3>Log In</h3>
+        </div>
+        <div class='form-group login-inputs'>
+            <label for='login-username'>Username/Email</label>
+            <input type='text' name='useremail' class='form-control form-control-sm' id='login-username' placeholder='Username/Email'>
+        </div>
+
+        <div class='form-group login-inputs'>
+            <label for='login-password'>Password</label>
+            <input type='text' name='password' class='form-control form-control-sm' id='login-password' placeholder='Enter Password'>
+        </div>
+
+        <div class='form-group form-final-btn'>
+            <button type='submit' class='btn btn-primary create-account-btn'>Login</button>
+        </div>
+
+        <div class='forgot-password-wrap'>
+            <a href='/forgot-password' class='forgot-password-link'>forgot password?</a>
+        </div>
+
+    {% endif %}
+
+</form>
+
+{% if not creating_admin %}
+<form id='login-page-form' action='{{ form_action }}' method='post' class='border rounded'>
+    <div class='form-group login-inputs'>
+        <h3>Register</h3>
+    </div>
+        <div class='form-group login-inputs'>
+            <label for='login-email'>Email</label>
+            <input type='email' name='email' class='form-control form-control-sm' id='login-email' placeholder='example@example.com'>
+        </div>
+
+        <div class='form-group login-inputs'>
+            <label for='login-username'>Username</label>
+            <input type='text' name='username' class='form-control form-control-sm' id='login-username' placeholder='Username'>
+        </div>
+
+        <div class='form-group login-inputs border-top'>
+            <label for='login-password'>Enter Password</label>
+            <input type='password' name='password' class='form-control form-control-sm' id='login-password' placeholder='Enter Password' onkeyup='checkPasswords()'>
+        </div>
+
+        <div class='form-group login-inputs'>
+            <label for='login-password2'>Confirm Password</label>
+            <input type='password' name='password2' class='form-control form-control-sm' id='login-password2' placeholder='Confirm Password' onkeyup='checkPasswords()'>
+            <small id='confirm-password-msg'></small>
+        </div>
+
+        <div class='form-group form-final-btn'>
+            <button type='submit' class='btn btn-primary create-account-btn'>Create</button>
+        </div>
+</form>
+{% endif %}
+
+<br>
+
+
+
+{% endblock %}
