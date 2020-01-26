@@ -31,9 +31,11 @@ def before_request():
         if 'admin' in session:
             flash_debug_info()
 
+
 @app.after_request
 def after_request(response):
     return response
+
 
 @app.route('/fonts/<file>/')
 def font(file=None):
@@ -106,13 +108,15 @@ def logout():
 @app.route('/register', methods=['POST'])
 def register(username=None, email=None, password=None,
              admin=False, publisher=False, moderator=False, api=False):
-    username = request.form.get('username') if username is None else username
-    email = request.form.get('email') if email is None else email
-    password = request.form.get('password') if password is None else password
+
+    if api is False:
+        username = request.form.get('username') if username is None else username
+        email = request.form.get('email') if email is None else email
+        password = request.form.get('password') if password is None else password
 
     if valid_username(username) and \
         valid_password(password) and \
-            valid_email(email):
+            valid_email(email, allow_empty=True):
 
         is_admin, is_publisher, is_moderator = False, False, False
 

@@ -14,9 +14,14 @@ class Buser(db.Model):
         return '<Buser %r>' % self.username
 
 class Blog(db.Model):
+    from datetime import datetime
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(20), db.ForeignKey('buser.username'), default=None)
+    title = db.Column(db.String(200), default='Untitled', nullable=False)
     text = db.Column(db.String(100000), default=None)
+    created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    edited = db.Column(db.DateTime, default=None)
+    custom_url = db.Column(db.String(200), default=None)
 
     def __repr__(self):
         return '<Blog %r>' % self.id

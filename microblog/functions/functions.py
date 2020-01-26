@@ -21,14 +21,18 @@ def valid_password(password=None):
         return False
 
     if type(password) == str:
-        if len(password) > 0 and len(password) < 200:
+        if len(password) >= 6 and len(password) <= 200:
             return True
     return False
 
 
-def valid_email(email=None):
-    if email is None:
-        return False
+def valid_email(email=None, allow_empty=False):
+    if allow_empty:
+        if email is None:
+            return True
+    else:
+        if email is None:
+            return False
 
     if type(email) == str:
         if len(email) > 0 and len(email) < 100:
