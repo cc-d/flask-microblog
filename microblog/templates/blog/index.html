@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 <br>
+
+{% if blogs == [] %}
 <div class="card">
     <h5 class="card-header">Getting Started</h5>
     <div class="card-body">
@@ -9,4 +11,14 @@
         <a href="/blog/create" class="btn btn-success">New Post</a>
     </div>
 </div>
+{% else %}
+    {% for blog in blogs %}
+        <div class='card-body'>
+            <h5 class='card-title'>{{ blog.title }}</h5>
+            <div class='card-text'>{{ blog.text }}</div>
+        </div>
+    {% endfor %}
+{% endif %}
+
+
 {% endblock %}

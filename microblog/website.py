@@ -98,7 +98,7 @@ def login(useremail=None, password=None):
             return redirect(url_for('login'))
 
 
-@app.route('/logout')
+@app.route('/logout/', methods=['GET'])
 def logout():
     session.clear()
     flash('Sucessfully logged out', 'success')

@@ -23,5 +23,8 @@ class Blog(db.Model):
     edited = db.Column(db.DateTime, default=None)
     custom_url = db.Column(db.String(200), default=None)
 
+    # public, private, unpublished
+    visibility = db.Column(db.String(20), default='public', nullable=False)
+
     def __repr__(self):
         return '<Blog %r>' % self.id

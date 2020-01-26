@@ -1,4 +1,52 @@
 {% extends 'base.html' %}
 {% block content %}
+<br>
+
+<div id='new-blog-wrapper'>
+    <form id='new-blog-form' action='/blog/create' method='post' class='rounded'>
+
+        <div class="input-group mb-3 create-locked-author">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="prepend-author">
+                    <i class='fa fa-user'></i>&nbsp;Author
+                </span>
+            </div>
+            <input type="text" class="form-control" placeholder="Author"
+             aria-label="Author" aria-describedby="prepend-author" 
+             disabled value="{{ session['username'] }}" name='author'>
+        </div>
+
+        <div class="input-group mb-3 custom-link">
+            <div class="input-group-prepend igp-url">
+                <span class="input-group-text" id="prepend-link">
+                    <i class='fa fa-link'></i>&nbsp;URL
+                </span>
+            </div>
+            <div class='input-text-wrap'>
+                <input type="text" class="form-control custom-link-input"
+                 aria-label="prepend-link" aria-describedby="prepend-link" name='url'>
+
+            </div>
+        </div>
+        <input type='text'  name='title'></title>
+        <label for='create-textarea'><h5>Markdown</h5></label>
+        <div class='input-group' id='create-textarea-wrapper'>
+            <textarea id='create-textarea' class='form-control' name='text'></textarea>
+        </div>
+
+
+        <button type='submit' class='btn btn-primary create-account-btn'><i class='fa fa-globe'></i>&nbsp;Publish</button>
+
+        <div class='visdiv'>
+            <p class='text-unstyled'>visibility: </p>
+            <select name='visibility'>
+                <option value='public'>public</option>
+                <option value='private'>private</option>
+                <option value='unpublished'>unpublished</option>
+            </select>
+        </div>
+
+    </form>
+</div>
 
 {% endblock %}
