@@ -1,6 +1,7 @@
 import config
 import re
 import os
+import json
 from time import time
 from flask import Flask, Blueprint, render_template, abort, request, g, redirect, flash, url_for, session
 from flask_sqlalchemy import SQLAlchemy
@@ -25,8 +26,16 @@ cache_bust = '?' + str(time()).replace('.', '')
 def before_request():
     g.cache_bust = cache_bust
 
+    # allows admins to append debug=1 to requests to see debug info
+    if 'debug=1' in request.environ['QUERY_STRING'].split('&'):
+        if 'admin' in session:
+            flash_debug_info()
 
-@app.route('/fonts/<file>')
+@app.after_request
+def after_request(response):
+    return response
+
+@app.route('/fonts/<file>/')
 def font(file=None):
     if os.path.isfile('static/fonts/%s' % file):
         return redirect('/static/fonts/' + file, code=301)
@@ -95,7 +104,8 @@ def logout():
 
 
 @app.route('/register', methods=['POST'])
-def register(username=None, email=None, password=None):
+def register(username=None, email=None, password=None,
+             admin=False, publisher=False, moderator=False, api=False):
     username = request.form.get('username') if username is None else username
     email = request.form.get('email') if email is None else email
     password = request.form.get('password') if password is None else password
@@ -104,15 +114,26 @@ def register(username=None, email=None, password=None):
         valid_password(password) and \
             valid_email(email):
 
-        is_admin = False
-        if db.session.query(Buser).first() is None:
-            is_admin = True
+        is_admin, is_publisher, is_moderator = False, False, False
+
+        # if no other users exist, create this (First) user as an admin
+        if db.session.query(Buser).first() is None or admin:
+            is_admin, is_publisher, is_moderator = True, True, True
 
         new_user = Buser(username=username, email=email, admin=is_admin,
+                         publisher=is_publisher, moderator=is_moderator,
                          password=generate_password_hash(password))
 
         db.session.add(new_user)
         db.session.commit()
+
+        if api:
+            juser = {'username':new_user.username, 'email':new_user.email,
+                     'password':new_user.password, 'unhashed_pw':password,
+                     'admin':new_user.admin, 'publisher':new_user.publisher,
+                     'moderator':new_user.moderator}
+
+            return ({'status':'success', 'new_user':juser})
 
         flash('registered user %s %s %s' % (username, email, password))
 
@@ -123,5 +144,9 @@ def register(username=None, email=None, password=None):
     else:
         abort(500)
 
+
 from blueprints import user
 app.register_blueprint(user.bp)
+
+from blueprints import blog
+app.register_blueprint(blog.bp)

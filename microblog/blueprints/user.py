@@ -1,7 +1,7 @@
 import sys
 sys.path.append('..')
 
-from blog import *
+from website import *
 
 bp = Blueprint('user', 'user', url_prefix='/user')
 
@@ -12,7 +12,3 @@ def profile(username=None):
 @bp.route('/<username>/invite_links/', methods=['GET', 'POST'])
 def invite_links():
     return is_admin()
-
-@bp.route('/<username>/test/')
-def aa(username=None):
-    return str(is_admin(username))

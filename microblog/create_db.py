@@ -1,11 +1,32 @@
-from flask_sqlalchemy import SQLAlchemy
-from blog import app as app
+#!/usr/bin/env python3
+from website import *
+import os
 
-db = SQLAlchemy(app)
+def create_users(amount=10):
+    for i in range(0, amount):
+        username = str(i)
+        email = str(i) + '@' + str(i) + '.com'
+        password = str(i)
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
+        admin, publisher, moderator = False, False, False
+        if i == 0:
+            admin, publisher, moderator = True, True, True
 
-    def __repr__(self):
-        return '<User %r>' % self.username
+        print('Creating user: %s' % str(i))
+        print(register(username=username, email=email, password=password,
+                 admin=admin, publisher=publisher, moderator=moderator,
+                 api=True))
+        print()
+
+def rebuild_db():
+    try:
+        os.remove('microblog.db')
+    except FileNotFoundError:
+        print('SQLITE3 DB does not exist.')
+
+    print('Creating SQLITE3 DB')
+    db.create_all()
+
+if __name__ == '__main__':
+    rebuild_db()
+    create_users()

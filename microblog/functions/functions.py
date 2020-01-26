@@ -1,9 +1,9 @@
 import string
 import re
 import uuid
+import random
 
 def valid_username(username=None):
-    print(username)
     if username is None:
         return False
 
@@ -15,6 +15,7 @@ def valid_username(username=None):
             return False
     return True
 
+
 def valid_password(password=None):
     if password is None:
         return False
@@ -23,6 +24,7 @@ def valid_password(password=None):
         if len(password) > 0 and len(password) < 200:
             return True
     return False
+
 
 def valid_email(email=None):
     if email is None:
@@ -38,5 +40,26 @@ def valid_email(email=None):
                     return True
     return False
 
+
 def gen_invite_link():
     return str(uuid.uuid4())
+
+
+def random_string(length1, length2=None,
+                  lowercase=True, uppercase=True,
+                  digits=True, special=False):
+    char_pool = ''
+    char_pool = char_pool + string.ascii_lowercase if lowercase else char_pool
+    char_pool = char_pool + string.ascii_uppercase if uppercase else char_pool
+    char_pool = char_pool + string.digits if digits else char_pool
+    char_pool = char_pool + '_-' if special else char_pool
+
+    if length2 is not None:
+        if length2 > length1:
+            ran_len = random.choice([x for x in range(length1, length2)])
+        else:
+            ran_len = random.choice([x for x in range(length2, length1)])
+        return ''.join([random.choice(char_pool) for x in range(0, ran_len)])
+    else:
+        return ''.join([random.choice(char_pool) for x in range(0, length1)])
+

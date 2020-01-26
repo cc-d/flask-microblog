@@ -1,7 +1,7 @@
 import sys
 sys.path.append('..')
 
-from blog import *
+from website import *
 
 
 def normalize_username(username=None):
@@ -27,3 +27,15 @@ def is_admin(username=None):
             return user[0]
     return False
 
+
+def flash_debug_info():
+    if 'admin' in session:
+        if session['admin'] is True:
+            k = session.keys()
+            k2 = [session[i] for i in k]
+
+            flash(k)
+            flash(k2)
+            flash(str(vars(request)))
+
+    return True
