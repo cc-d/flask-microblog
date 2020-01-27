@@ -28,4 +28,4 @@ def create_post(title=None, text=None, url=None, author=None, visibility=None, a
 
         print(str(vars(new_post)))
 
-        return render_template('blog/index.html')
+        return redirect(url_for('blog.blog_index'))

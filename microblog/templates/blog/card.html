@@ -1,0 +1,9 @@
+<div class='card'>
+    <img class='card-img-top' src='https://www.legat.com/wp-content/uploads/2013/08/500x500.gif' alt='placeholder image'>
+    <div class='card-body'>
+        <h5 class='card-title'>{{ blog.title }}</h5>
+        <p class='card-text'>Author: {{ blog.author }}</p>
+        <p class='card-text'>Created: {{ blog.created|string }}</p>
+        <p class='card-text'>URL: {{ request.environ['HTTP_HOST'] }}/blog/{{ blog.id }}</p>
+    </div>
+</div>

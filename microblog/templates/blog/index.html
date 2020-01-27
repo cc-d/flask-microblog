@@ -12,12 +12,11 @@
     </div>
 </div>
 {% else %}
-    {% for blog in blogs %}
-        <div class='card-body'>
-            <h5 class='card-title'>{{ blog.title }}</h5>
-            <div class='card-text'>{{ blog.text }}</div>
-        </div>
-    {% endfor %}
+    <div class='card-group'>
+        {% for blog in blogs %}
+            {% include 'blog/card.html' %}
+        {% endfor %}
+    </div>
 {% endif %}
 
 

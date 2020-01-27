@@ -6,14 +6,8 @@
 
 {% block content %}
 
-{% if creating_admin == False %}
-    {% set form_action = '/login' %}
-{% else %}
-    {% set form_action = '/register' %}
-{% endif %}
-
 <div id='login-form-wrapper'>
-    <form id='login-form-login' class='login-page-form' action='{{ form_action }}' method='post' class='border rounded'>
+    <form id='login-form-login' class='login-page-form' action='/login' method='post' class='border rounded'>
         <div class='form-group login-inputs'>
             <h3>Log In</h3>
         </div>
