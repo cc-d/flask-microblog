@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
+
+{% block javascript %}
+    <script type='text/javascript' src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 
-{% include 'admin/upload_files.html' %}
-
-<br><h1>uploaded files</h1>
+{% include 'admin/file-uploader.html' %}
 
 {% for url in file_urls %}
-    {% include 'admin/file_card.html' %}
+    {% include 'admin/file-card.html' %}
 {% endfor %}
 
 {% endblock %}

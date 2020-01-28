@@ -1,6 +1,4 @@
 microblog/config.py
 *.pyc
-__pycache__/
-__pycache__/*
-__pycache__
+*_pycache_*
 microblog.db

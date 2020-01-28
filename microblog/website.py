@@ -63,7 +63,7 @@ def login(useremail=None, password=None):
             db.create_all()
             creating_admin = True
 
-        return render_template('login.html', creating_admin=creating_admin)
+        return render_template('login.html')
 
     elif request.method == 'POST' or \
             useremail is not None or \
@@ -88,7 +88,7 @@ def login(useremail=None, password=None):
             if user.admin:
                 session['admin'] = True
 
-            return redirect(url_for('index'))
+            return redirect(url_for('blog.blog_index'))
         else:
             flash('invalid password', 'danger')
             return redirect(url_for('login'))

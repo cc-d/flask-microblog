@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
-from website import *
 import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '/../')
+
+print(sys.path)
+
+from website import *
+
 
 def create_users(amount=10, prompt_admin=True):
     users = {}
