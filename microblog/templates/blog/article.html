@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+<a href='{{ request.url }}'>{{ article.title }}</a>
+<img src='/static/uploads/hello-3.png'>
+
+{{ article.markdown_text()|safe }}
+
+{% endblock %}

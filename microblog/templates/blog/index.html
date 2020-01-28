@@ -12,11 +12,11 @@
     </div>
 </div>
 {% else %}
-    <div class='card-group'>
+
         {% for blog in blogs %}
             {% include 'blog/card.html' %}
         {% endfor %}
-    </div>
+
 {% endif %}
 
 

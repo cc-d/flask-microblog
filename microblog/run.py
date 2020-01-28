@@ -11,5 +11,6 @@ def main(port=80):
         print(stars + 'No port found, using default port %s' % port + stars)
         app.run(host='0.0.0.0', port=port)
 
+
 if __name__ == '__main__':
     main()

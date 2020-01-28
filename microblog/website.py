@@ -4,6 +4,7 @@ import os
 import json
 from time import time
 from flask import Flask, Blueprint, render_template, abort, request, g, redirect, flash, url_for, session
+from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import OperationalError
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -42,11 +43,6 @@ def font(file=None):
     if os.path.isfile('static/fonts/%s' % file):
         return redirect('/static/fonts/' + file, code=301)
     abort(404)
-
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -154,3 +150,6 @@ app.register_blueprint(user.bp)
 
 from blueprints import blog
 app.register_blueprint(blog.bp)
+
+from blueprints import admin
+app.register_blueprint(admin.bp)

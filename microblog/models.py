@@ -1,6 +1,9 @@
 from website import app as app
 from website import db as db
 
+from markdown import markdown
+
+
 class Buser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -12,6 +15,7 @@ class Buser(db.Model):
 
     def __repr__(self):
         return '<Buser %r>' % self.username
+
 
 class Blog(db.Model):
     from datetime import datetime
@@ -28,3 +32,6 @@ class Blog(db.Model):
 
     def __repr__(self):
         return '<Blog %r>' % self.id
+
+    def markdown_text(self):
+        return markdown(self.text)

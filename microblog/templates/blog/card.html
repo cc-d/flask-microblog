@@ -1,9 +1,31 @@
-<div class='card'>
-    <img class='card-img-top' src='https://www.legat.com/wp-content/uploads/2013/08/500x500.gif' alt='placeholder image'>
-    <div class='card-body'>
-        <h5 class='card-title'>{{ blog.title }}</h5>
-        <p class='card-text'>Author: {{ blog.author }}</p>
-        <p class='card-text'>Created: {{ blog.created|string }}</p>
-        <p class='card-text'>URL: {{ request.environ['HTTP_HOST'] }}/blog/{{ blog.id }}</p>
+<div class='card blog-list-card'>
+    <div class='card-body blog-list-body'>
+        <h5 class='card-title list-card-title'>{{ blog.title }}</h5>
+        <div class='blog-card-body'>
+            <div class='blog-list-left'>
+            <div class='blog-list-img-container'>
+                <img class='card-img-top blog-list-img' src='https://www.calliaweb.co.uk/wp-content/uploads/2015/10/600x900.jpg'>
+            </div>
+            </div>
+
+            <div class='blog-list-right'>
+
+            <div class='blog-info border-bottom'>
+                <p class='blog-list-info'><i class='fa fa-user'></i>&nbsp;{{ blog.author }}</p>
+                <p class='blog-list-info'>{{ blog.created.strftime('%b %d, %Y') }}</p>
+            </div>
+
+            <div class='blog-list-text-container'>
+                <p class='card-text'>{{ blog.text }}</p>
+            </div>
+
+
+            <div class='blog-list-readmore'>
+                <a href='{{ blog.url }}/article/{{ blog.id }}/'>read more</a>
+            </div>
+
+            </div>
+        </div>
     </div>
 </div>
+<br>

@@ -37,5 +37,4 @@ def flash_debug_info():
             flash(k)
             flash(k2)
             flash(str(vars(request)))
-
     return True

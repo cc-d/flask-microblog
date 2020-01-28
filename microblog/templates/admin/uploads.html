@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% include 'admin/upload_files.html' %}
+
+<br><h1>uploaded files</h1>
+
+{% for url in file_urls %}
+    {% include 'admin/file_card.html' %}
+{% endfor %}
+
+{% endblock %}
