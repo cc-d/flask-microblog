@@ -1,7 +1,28 @@
 <div class='card file-card'>
-    <img src='{{ url }}' class='file-card-img' alt='{{ url }}'>
-    <div class='card-body'>
-        <textarea>{{ url }}</textarea>
+    <div class='file-card-img-container border'>
+        <a href='{{ url[0] }}'>
+            <div class='file-card-link-center'>
+                {% if url[1].lower() in config.IMAGE_EXTS %}
+                    <img src='{{ url[0] }}' class='file-card-img' alt='{{ url[0] }}'>
+                {% else %}
+                    <p id='ext-preview-txt-0' class='ext-preview-txt'>{{ url[1] }}</p>
+                {% endif %}
+            </div>
+        </a>
+    </div>
+    <div class='card-body file-card-body'>
+        <a class='card-text file-card-text border-bottom' href='{{ url[0] }}'>{{ url[0].split('/')[-1] }}</a>
+        <br><br>
+        <div class='file-card-options'>
+            <a href='{{ "/download/" + url[0].split("/")[-1] }}' download>download</a>
+            &nbsp;|&nbsp;
+            <form action='/admin/delete' method='post'>
+
+                <input type='hidden' name='simple-csrf-token' value='{{ create_csrf_token(request.environ["HTTP_COOKIE"]) }}'>
+                {{ session['CSRF_TOKEN'] }}
+                <button type='submit' class='link-button' href='{{ "/admin/delete/" + url[0].split("/")[-1] }}'>delete</a>
+            </button>
+        </div>
     </div>
 
-</div>
+</div> 

@@ -7,6 +7,9 @@ URL = 'http://107.161.20.20:10000'
 # change to decent large random string
 SECRET_KEY = 'changeme'
 
+# basic csrf protection
+CSRF_KEY = 'changemeW'
+
 # performance improvement
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
@@ -40,3 +43,11 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 # path for admin file uploads
 import os
 UPLOAD_PATH = os.path.dirname(os.path.abspath(__file__)) + '/static/uploads'
+
+# which images exts to show in <img> tags
+IMAGE_EXTS = ['jpg', 'bmp', 'jpeg', 'gif', 'png']
+
+SESSION_COOKIE_HTTPONLY=True
+SESSION_COOKIE_SAMESITE='Lax'
+
+

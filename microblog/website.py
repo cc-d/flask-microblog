@@ -3,7 +3,7 @@ import re
 import os
 import json
 from time import time
-from flask import Flask, Blueprint, render_template, abort, request, g, redirect, flash, url_for, session
+from flask import Flask, Blueprint, render_template, abort, request, g, redirect, flash, url_for, session, send_from_directory
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import OperationalError
@@ -26,16 +26,84 @@ cache_bust = '?' + str(time()).replace('.', '')
 @app.before_request
 def before_request():
     g.cache_bust = cache_bust
+    request.show_debug_info = False
+
+    if 'username' in session:
+        if 'CSRF_TOKEN' not in session or 'USER_CSRF' not in session:
+            session['USER_CSRF'] = random_string(64)
+            session['CSRF_TOKEN'] = create_csrf_token(session['USER_CSRF'], config.CSRF_KEY)
 
     # allows admins to append debug=1 to requests to see debug info
     if 'debug=1' in request.environ['QUERY_STRING'].split('&'):
         if 'admin' in session:
             flash_debug_info()
+            request.show_debug_info = True
+
+    if config.DEBUG:
+        g.debug_time = time()
 
 
 @app.after_request
 def after_request(response):
+    if config.DEBUG:
+        print('\n', time() - g.debug_time)
+
     return response
+
+
+def clear_csrf_tokens():
+    session.pop('USER_CSRF')
+    session.pop('CSRF_TOKEN')
+    return True
+
+def req_csrf(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if request.method == 'POST':
+            user_csrf = request.form.get('simplecsrf')
+
+            if user_csrf is None:
+                flash('no csrf input')
+                return logout()
+
+            if user_csrf != session['USER_CSRF']:
+                flash('submitted csrf does not match cookie csrf')
+                return logout()
+
+            if verify_csrf_token(user_csrf, session['CSRF_TOKEN']) is False:
+                flash('submitted csrf does not match combined server & user keys')
+                return logout()
+
+            clear_csrf_tokens()
+            flash('csrf user token and server token match', 'success')
+
+            return f(*args, **kwargs)
+        else:
+            return f(*args, **kwargs)
+    return decorated
+
+
+def create_csrf_token(user_token, csrf_key=config.CSRF_KEY):
+    from werkzeug.security import generate_password_hash
+
+    token = generate_password_hash(user_token + csrf_key,
+                                   method='pbkdf2:sha256:10000',
+                                   salt_length=8)
+    return token
+
+
+def verify_csrf_token(user_token, csrf_token, csrf_key=config.CSRF_KEY):
+    from werkzeug.security import check_password_hash
+
+    return check_password_hash(csrf_token,
+                               user_token + csrf_key)
+
+
+def simplecsrf():
+    return "<input type='hidden' value='%s' name='%s'>" % (session['USER_CSRF'], 'simplecsrf')
+
+
+app.jinja_env.globals.update(simplecsrf=simplecsrf)
 
 
 @app.route('/fonts/<file>/')
@@ -43,6 +111,12 @@ def font(file=None):
     if os.path.isfile('static/fonts/%s' % file):
         return redirect('/static/fonts/' + file, code=301)
     abort(404)
+
+
+@app.route('/download/<path:filename>')
+def download(filename=None, methods=['GET']):
+    uploads = os.path.join(app.root_path, app.config['UPLOAD_PATH'])
+    return send_from_directory(directory=uploads, filename=filename)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -96,7 +170,9 @@ def login(useremail=None, password=None):
 
 @app.route('/logout/', methods=['GET'])
 def logout():
-    session.clear()
+    for key in [k for k in session.keys()]:
+        session.pop(key)
+
     flash('Sucessfully logged out', 'success')
     return redirect(url_for('login'))
 

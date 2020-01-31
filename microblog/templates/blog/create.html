@@ -45,7 +45,8 @@
             <textarea id='create-textarea' class='form-control' name='text'></textarea>
         </div>
 
-        <br>
+        {{ simplecsrf()|safe }}
+
         <button type='submit' class='btn btn-primary create-account-btn'><i class='fa fa-globe'></i>&nbsp;Publish</button>
 
         <div class='visdiv'>

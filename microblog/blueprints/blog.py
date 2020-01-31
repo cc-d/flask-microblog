@@ -31,8 +31,8 @@ def show_article(blog_id=None, custom_url=None):
         return render_template('blog/article.html', article=article)
 
 
-
 @bp.route('/blog/create', methods=['GET','POST'])
+@req_csrf
 def create_post(title=None, text=None, url=None, author=None, visibility=None, api=False):
     if request.method == 'GET':
         return render_template('blog/create.html')

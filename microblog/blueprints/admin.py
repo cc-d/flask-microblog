@@ -23,6 +23,10 @@ def get_file_urls():
     urls = glob.glob(app.config['UPLOAD_PATH'] + '/*')
     urls = [u.replace(app.config['UPLOAD_PATH'], '') for u in urls]
     urls = ['/static/uploads' + u for u in urls]
+
+    # assosciate extension with each url
+    urls = [(u, u.split('.')[-1]) for u in urls]
+
     return urls
 
 
@@ -38,8 +42,8 @@ def upload():
     if request.files:
         image = request.files['image']
 
-        print(image)
-
+        # generate unique server file name 
+        # by appending -X 
         if os.path.exists(os.path.join(app.config['UPLOAD_PATH'], image.filename)):
             no_ext = '.'.join(image.filename.split('.')[:-1])
             copy_num = re.findall(r'.*-(\d+)$', no_ext)
@@ -53,5 +57,11 @@ def upload():
         image.save(os.path.join(app.config['UPLOAD_PATH'], image.filename))
 
         new_url = request.host + '/static/uploads/' + image.filename
-        print(new_url)
-        return {'status':'success', 'url':new_url}
+        flash('uploaded file to %s' % new_url)
+        return redirect(url_for('view_files'))
+
+
+@app.route('/delete/upload', methods=['POST'])
+@req_admin
+def delete():
+    pass

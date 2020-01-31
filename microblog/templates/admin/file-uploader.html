@@ -1,9 +1,15 @@
 
 <div class='container' class='image-uploader-container'>
-        <h1>Upload an image</h1>
+    <ul class="list-unstyled">
+        <li class="media">
         <form action='/admin/upload' method='POST' enctype='multipart/form-data'>
-            <img id='image-preview-0' alt="your image" width='100' height='100' />
-            <input type="file" onchange="showUploadPreview(this)">
+            <img id='image-preview-0' style='display: none;' class='upload-image-preview mr-1' alt="image preview" />
+            <div id='text-preview-0' style='display: none;' class='upload-image-preview mr-1'>
+                <p id='ext-preview-txt-0' class='ext-preview-txt'></p>
+            </div>
+            <input type="file" name='image' onchange="showUploadPreview(this)">
             <button type='submit' class="btn btn-primary">Upload</button>
         </form>
+    </li>
+    </ul>
 </div>

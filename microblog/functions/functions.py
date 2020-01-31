@@ -66,4 +66,3 @@ def random_string(length1, length2=None,
         return ''.join([random.choice(char_pool) for x in range(0, ran_len)])
     else:
         return ''.join([random.choice(char_pool) for x in range(0, length1)])
-
