@@ -25,20 +25,30 @@
             <div class='input-text-wrap'>
                 <input type="text" class="form-control custom-link-input"
                  aria-label="prepend-link" aria-describedby="prepend-link" name='url'>
-
             </div>
         </div>
-        <input type='text'  name='title'></title>
+
+        <div class="input-group mb-3 custom-link">
+            <div class="input-group-prepend igp-url">
+                <span class="input-group-text" id="prepend-title">
+                    <i class='fa fa-link'></i>&nbsp;Title
+                </span>
+            </div>
+            <div class='input-text-wrap'>
+                <input type="text" class="form-control custom-link-input"
+                 aria-label="prepend-link" aria-describedby="prepend-title" name='title'>
+            </div>
+        </div>
+
         <label for='create-textarea'><h5>Markdown</h5></label>
         <div class='input-group' id='create-textarea-wrapper'>
             <textarea id='create-textarea' class='form-control' name='text'></textarea>
         </div>
 
-
+        <br>
         <button type='submit' class='btn btn-primary create-account-btn'><i class='fa fa-globe'></i>&nbsp;Publish</button>
 
         <div class='visdiv'>
-            <p class='text-unstyled'>visibility: </p>
             <select name='visibility'>
                 <option value='public'>public</option>
                 <option value='private'>private</option>

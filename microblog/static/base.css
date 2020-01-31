@@ -164,3 +164,7 @@
         font-size: 85%;
     }
 }
+
+.visdiv {
+    display: inline-block;
+}

@@ -12,7 +12,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # choose to use either postgresql or sqlite3, both work
 #DB_TYPE = 'sqltie3'
-DB_TYPE = 'postgres'
+DB_TYPE = 'sqlite'
 
 DB_NAME = 'microblog'
 
